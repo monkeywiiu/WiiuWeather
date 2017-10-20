@@ -8,8 +8,14 @@
     tools:context="com.example.weaterversionone.MainActivity">
 
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/weather_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </android.support.v4.view.ViewPager>
 
-    <include layout="@layout/weather_area"/>
+    <!--<include layout="@layout/weather_area"/>-->
 
     <fragment
         android:id="@+id/choose_area_fragment"
