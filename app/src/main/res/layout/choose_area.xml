@@ -26,6 +26,16 @@
             android:layout_centerVertical="true"
             android:background="@drawable/ic_flip_to_back_white_36pt"
             android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textSize="18sp"
+            android:text="添加城市"
+            />
     </RelativeLayout>
 
     <ListView

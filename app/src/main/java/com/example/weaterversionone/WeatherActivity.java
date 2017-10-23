@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.weaterversionone.json.Weather;
 import com.example.weaterversionone.util.HttpUtil;
 import com.example.weaterversionone.util.Utility;
@@ -39,6 +41,7 @@ public class WeatherActivity extends AppCompatActivity {
     public DrawerLayout mDrawerLayout;
     private Toolbar mToolBar;
     private ActionBarDrawerToggle mDrawerToggle;
+    private ImageView mBackDrop;
 
     private TextView weatherCond1, weatherCond2;
     private TextView tmpRange1, tmpRange2;
@@ -58,23 +61,8 @@ public class WeatherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_drawerlayout);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        /*mToolBar = (Toolbar) findViewById(R.id.tool_bar);
-        weatherCond1 = (TextView) findViewById(R.id.date_cond1);
-        weatherCond2 = (TextView) findViewById(R.id.date_cond2);
-        tmpRange1 = (TextView) findViewById(R.id.tmp_range1);
-        tmpRange2 = (TextView) findViewById(R.id.tmp_range2);
-        airBrf = (TextView) findViewById(R.id.air_brf);
-        airTxt = (TextView) findViewById(R.id.air_txt);
-        cwBrf = (TextView) findViewById(R.id.cw_brf);
-        cwTxt = (TextView) findViewById(R.id.cw_txt);
-        fluBrf = (TextView) findViewById(R.id.flu_brf);
-        fluTxt = (TextView) findViewById(R.id.flu_txt);
-        sportBrf = (TextView) findViewById(R.id.sport_brf);
-        sportTxt = (TextView) findViewById(R.id.sport_txt);*/
-
         viewPager = (ViewPager) findViewById(R.id.weather_page);
         view = getLayoutInflater().inflate(R.layout.weather_area, null);
-
 
         if (view == null) {
             Log.d("viewtest", "null");
@@ -87,6 +75,7 @@ public class WeatherActivity extends AppCompatActivity {
         pagerAdapter = new MyPagerAdapter(viewList);
         viewPager.setAdapter(pagerAdapter);
 
+        mBackDrop = view.findViewById(R.id.backdrop);
         mToolBar = view.findViewById(R.id.tool_bar);
         weatherCond1 = view.findViewById(R.id.date_cond1);
         weatherCond2 = view.findViewById(R.id.date_cond2);
@@ -124,20 +113,9 @@ public class WeatherActivity extends AppCompatActivity {
             }
         }
 
-        //废弃
-        /*SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
-        String weatherInfo = pre.getString("weather_info", null);
-        if (weatherInfo !=null) {
-            Weather weather = Utility.handleWeatherResponse(weatherInfo);
-            showWeather(weather);
-        } else {
-            weatherId = getIntent().getStringExtra("weatherId");
-            if (weatherId != null) {
-                requestWeather(weatherId);
-            } else {
-                Toast.makeText(this, "请求失败", Toast.LENGTH_SHORT).show();
-            }
-        }*/
+
+        Glide.with(this).load("https://api.dujin.org/bing/1920.php").into(mBackDrop);
+
     }
 
     @Override
@@ -193,7 +171,7 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Log.d("weatherID", "" +weather.basic.city);
-                mToolBar.setTitle(weather.basic.city + "    " + weather.now.cond.txt + "  " + weather.now.tmp);
+                mToolBar.setTitle(weather.basic.city + "    " + weather.now.cond.txt + "  " + weather.now.tmp + "℃");
                 weatherCond1.setText(weather.foreCastList.get(1).date + " " +weather.foreCastList.get(1).cond.txt_d);
                 tmpRange1.setText(weather.foreCastList.get(1).tmp.min + "~" + weather.foreCastList.get(1).tmp.max + "℃");
                 weatherCond2.setText(weather.foreCastList.get(2).date + " " +weather.foreCastList.get(2).cond.txt_d);
@@ -215,6 +193,7 @@ public class WeatherActivity extends AppCompatActivity {
     public void addWeatherView(String weatherId) {
         View newView = getLayoutInflater().inflate(R.layout.weather_area, null);
         viewList.add(newView);
+        mBackDrop = newView.findViewById(R.id.backdrop);
         mToolBar = newView.findViewById(R.id.tool_bar);
         weatherCond1 = newView.findViewById(R.id.date_cond1);
         weatherCond2 = newView.findViewById(R.id.date_cond2);
@@ -229,6 +208,7 @@ public class WeatherActivity extends AppCompatActivity {
         sportBrf = newView.findViewById(R.id.sport_brf);
         sportTxt = newView.findViewById(R.id.sport_txt);
         requestWeather(weatherId);
+        Glide.with(this).load("https://api.dujin.org/bing/1920.php").into(mBackDrop);
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {

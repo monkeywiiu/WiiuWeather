@@ -121,10 +121,12 @@ public class ChooseAreaFragment extends Fragment {
 
         provinceList = DataSupport.findAll(Province.class);
         if (provinceList.size() > 0) {
+            dataList.clear();
             for (Province province : provinceList) {
                 dataList.add(province.getProvinceName());
             }
             closeProgressDialog();
+            titleView.setText("");
             adapter.notifyDataSetChanged();
             currentLevel = LEVEL_PROVINCE;
         } else {
